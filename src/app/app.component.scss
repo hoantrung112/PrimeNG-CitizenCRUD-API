@@ -55,6 +55,10 @@
     .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
         display: none;
     }
+
+    .p-invalid {
+        color: red;
+    }
 }
 
 @media screen and (max-width: 960px) {

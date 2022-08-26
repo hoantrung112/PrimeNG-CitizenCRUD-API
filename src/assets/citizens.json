@@ -1,0 +1,40 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"address": "Manchester",
+			"fullName": "David De Gea",
+			"nationality": "Spain",
+			"identityNumber": "001002003004",
+			"phoneNumber": "0976398998",
+			"email": "dvd1@mu.uk",
+			"dateOfBirth": "1991-08-24",
+			"gender": "Male",
+			"avatar": "1.jfif"
+		},
+		{
+			"id": "1001",
+			"address": "Berlin",
+			"fullName": "Lisandro Martinez",
+			"nationality": "Argentina",
+			"identityNumber": "12345678900",
+			"phoneNumber": "0976398999",
+			"email": "lm6@mu.uk",
+			"dateOfBirth": "1995-08-24",
+			"gender": "Male",
+			"avatar": "3.jfif"
+		},
+		{
+			"id": "1002",
+			"address": "London",
+			"fullName": "Tyrell Malacia",
+			"nationality": "Netherlands",
+			"identityNumber": "123456784512",
+			"phoneNumber": "0976399999",
+			"email": "tm12@mu.uk",
+			"dateOfBirth": "1998-08-22",
+			"gender": "Male",
+			"avatar": "8.jfif"
+		}
+	]
+}

@@ -6,7 +6,7 @@
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
                 (click)="openNew()"></button>
             <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
-                (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+                (click)="deleteSelectedCitizens()" [disabled]="!selectedCitizens || !selectedCitizens.length"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
@@ -15,180 +15,187 @@
             <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
         </ng-template>
     </p-toolbar>
-
-    <p-table #dt [value]="products" [rows]="10" [paginator]="true"
-        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProducts"
-        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true">
+    <p-table #dt [value]="citizens" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" totalRecords="_totalRecords"
+        [rowsPerPageOptions]="[5,10,15,20]" [(selection)]="selectedCitizens" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <p class="p-m-0 display-3 ml-3"><b>PLAYER MANAGEMENT PLATFORM</b></p>
+                <p class="p-m-0 display-3 ml-3"><b>CITIZEN MANAGEMENT PLATFORM</b></p>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search..." />
                 </span>
             </div>
+            <!-- <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                placeholder="Choose fields to display"></p-multiSelect> -->
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="name"><i class="pr-2 fas fa-signature"></i>Player's name
-                    <p-sortIcon field="name"></p-sortIcon>
+                <!-- col #1 -->
+                <th pSortableColumn="fullName">
+                    <i class="pr-2 fas fa-signature"></i>
+                    Full name
+                    <p-sortIcon field="fullName"></p-sortIcon>
                 </th>
-                <th><i class="pr-2 fas fa-user"></i>Avatar</th>
-                <th pSortableColumn="price"><i class="pr-2 fas fa-pound-sign"></i>Salary (thousand dollar)
-                    <p-sortIcon field="price"></p-sortIcon>
+                <!-- col #2 -->
+                <th>
+                    <i class="pr-2 fas fa-user"></i>
+                    Avatar
                 </th>
-                <th pSortableColumn="category"><i class="pr-2 fas fa-arrows-alt"></i>Position
-                    <p-sortIcon field="category"></p-sortIcon>
+                <!-- col #3 -->
+                <th pSortableColumn="dateOfBirth">
+                    <i class="pr-2 fas fa-birthday-cake"></i>
+                    D.O.B
+                    <p-sortIcon field="dateOfBirth"></p-sortIcon>
                 </th>
-                <th pSortableColumn="rating"><i class="pr-2 fas fa-fire"></i>Curren form
-                    <p-sortIcon field="rating"></p-sortIcon>
+                <!-- col #4 -->
+                <th pSortableColumn="gender">
+                    <i class="pr-2 fas fa-venus-mars"></i>
+                    Gender
+                    <p-sortIcon field="gender"></p-sortIcon>
                 </th>
-                <th pSortableColumn="inventoryStatus"><i class="pr-2 fas fa-flag"></i>Nationality
-                    <p-sortIcon field="inventoryStatus"></p-sortIcon>
+                <!-- col #5 -->
+                <th pSortableColumn="identityNumber">
+                    <i class="pr-2 fas fa-id-card"></i>
+                    Identity number
+                    <p-sortIcon field="identityNumber"></p-sortIcon>
+                </th>
+                <!-- col #6 -->
+                <th pSortableColumn="email">
+                    <i class="pr-2 fas fa-envelope"></i>
+                    Email
+                    <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <!-- col #7 -->
+                <th pSortableColumn="address">
+                    <i class="pr-2 fas fa-map-marker-alt"></i>
+                    Address
+                    <p-sortIcon field="address"></p-sortIcon>
+                </th>
+                <!-- col #8 -->
+                <th pSortableColumn="phoneNumber">
+                    <i class="pr-2 fas fa-phone"></i>
+                    Phone number
+                    <p-sortIcon field="phoneNumber"></p-sortIcon>
                 </th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-citizen let-columns="columns">
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="citizen"></p-tableCheckbox>
                 </td>
-                <td>{{product.name}}</td>
-                <td><img [src]="'assets/avatar/' + product.image" [alt]="product.name" width="100" class="shadow-4" />
+                <!-- col #1 -->
+                <td>{{citizen.fullName}}</td>
+                <!-- col #2 -->
+                <td><img [src]="'assets/avatar/' + citizen.avatar" [alt]="citizen.fullName" width="100"
+                        class="shadow-4" />
                 </td>
-                <td>{{product.price | currency:'USD'}}</td>
-                <td>{{product.category}}</td>
-                <td>
-                    <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                <!-- col #3 -->
+                <td>{{citizen.dateOfBirth}}</td>
+                <!-- col #4 -->
+                <td>{{citizen.gender}}</td>
+                <!-- col #5 -->
+                <td>{{citizen.identityNumber}}</td>
+                <!-- col #6 -->
+                <td>{{citizen.email}}</td>
+                <!-- col #7 -->
+                <td>{{citizen.address.length > 15 ? citizen.address.substring(0,15).concat("...") : citizen.address}}
                 </td>
-                <td><span
-                        [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
-                </td>
+                <!-- col #8 -->
+                <td>{{citizen.phoneNumber}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                        (click)="editProduct(product)"></button>
+                        (click)="editCitizen(citizen)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                        (click)="deleteProduct(product)"></button>
+                        (click)="deleteCitizen(citizen)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                In total there are {{products ? products.length : 0 }} players.
+                In total there are {{citizens ? citizens.length : 0 }} citizens.
             </div>
         </ng-template>
     </p-table>
 </div>
 
-<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Player Information" [modal]="true"
+<p-dialog [(visible)]="citizenDialog" [style]="{width: '450px'}" header="Citizen's information" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
         <div class="p-field">
-            <label for="name">Player's name</label>
-            <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !product.name">Player's name is required!</small>
+            <label for="fullName">Full name</label>
+            <input type="text" placeholder="Nguyễn Hoàn Trung" pInputText id="fullName" [(ngModel)]="citizen.fullName"
+                required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.fullName">Citizen's name is required!</small>
         </div>
         <div class="p-field">
-            <label for="description">Description</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3"
-                cols="20"></textarea>
+            <label for="dateOfBirth">D.O.B</label>
+            <input type="date" pInputText id="dateOfBirth" [(ngModel)]="citizen.dateOfBirth" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.dateOfBirth">Citizen's DOB is required!</small>
+        </div>
+        <div class="p-field">
+            <label for="gender">Gender</label>
+            <div class="p-formgrid p-grid d-flex justify-content-center">
+                <div class="p-field-radiobutton pr-2">
+                    <p-radioButton id="gender1" name="gender" value="Male" [(ngModel)]="citizen.gender"></p-radioButton>
+                    <label for="gender1">Male</label>
+                </div>
+                <div class="p-field-radiobutton pr-2">
+                    <p-radioButton id="gender2" name="gender" value="Female" [(ngModel)]="citizen.gender">
+                    </p-radioButton>
+                    <label for="gender2">Female</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton id="gender3" name="gender" value="Other" [(ngModel)]="citizen.gender">
+                    </p-radioButton>
+                    <label for="gender3">Other</label>
+                </div>
+            </div>
+            <input type="radio" pInputText id="DOB" [(ngModel)]="citizen.dateOfBirth" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.dateOfBirth">Citizen's DOB is required!</small>
         </div>
 
         <div class="p-field">
-            <label class="p-mb-3">Position</label>
-            <div class="p-formgrid p-grid">
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category1" name="category" value="GK" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category1">GK</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category2" name="category" value="CB" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category2">CB</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category3" name="category" value="LB" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category3">LB</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="RB" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">RB</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="CDM" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">CDM</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="CM" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">CM</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="CAM" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">CAM</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="LW" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">LW</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="RW" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">RW</label>
-                </div>
-                <div class="p-field-radiobutton p-col-3">
-                    <p-radioButton id="category4" name="category" value="ST" [(ngModel)]="product.category">
-                    </p-radioButton>
-                    <label for="category4">ST</label>
-                </div>
-            </div>
+            <label for="identityNumber">Identity number</label>
+            <input type="text" placeholder="001002003004" pInputText id="identityNumber"
+                [(ngModel)]="citizen.identityNumber" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.identityNumber">Citizen's ID number is
+                required!</small>
+        </div>
+        <div class="p-field">
+            <label for="email">Email</label>
+            <input type="email" placeholder="user@hotmail.com" pInputText id="email" [(ngModel)]="citizen.email"
+                required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.email">Citizen's email is required!</small>
+        </div>
+        <div class="p-field">
+            <label for="phoneNumber">Phone number</label>
+            <input type="tel" placeholder="0987654321" pInputText id="phoneNumber" [(ngModel)]="citizen.phoneNumber"
+                required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.phoneNumber">Citizen's phone number is
+                required!</small>
+        </div>
+        <div class="p-field">
+            <label for="address">Address</label>
+            <input type="text" placeholder="99 Quang Trung st, Hadong, Hanoi" pInputText id="address"
+                [(ngModel)]="citizen.address" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !citizen.address">Citizen's address is required!</small>
         </div>
 
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="price">Salary</label>
-                <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US">
-                </p-inputNumber>
-            </div>
-            <div class="p-field p-col">
-                <label for="inventoryStatus">Nationality</label>
-                <input id="inventoryStatus" [(ngModel)]="product.inventoryStatus">
-            </div>
-            <!-- <div class="p-field p-col">
-                <label for="quanratingtity">Current form </label>
-                <input id="rating" type="number" min="0" max="5" step="1" value="0" [(ngModel)]="product.rating">
-            </div> -->
-        </div>
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label class="pr-5" for="rating">Current form (out of 5) </label>
-                <input id="rating" type="number" min="0" max="5" step="1" value="0" [(ngModel)]="product.rating">
-            </div>
-        </div>
-        <!-- upload avatar -->
-        <!-- <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label class="pr-5" for="image">Avatar</label>
-                <input id="image" type="file" [(ngModel)]="product.image">
-            </div>
-        </div> -->
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="createOrUpdateCitizen()"></button>
     </ng-template>
 </p-dialog>
 
