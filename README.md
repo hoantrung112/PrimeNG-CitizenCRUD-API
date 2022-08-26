@@ -15,3 +15,10 @@ ng update @angular-devkit/build-angular
 ```
 
 If the above command works, it is because your packages are in need of being updated to latest version.
+
+In case of CORS-related issues, please download Google Chrome as browser for demonstration.
+Open terminal and run the following command (Window) & navigate to `http://localhost:4200/` on newly opened Chrome window.
+
+```sh
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security  --user-data-dir=~/chromeTemp
+```
